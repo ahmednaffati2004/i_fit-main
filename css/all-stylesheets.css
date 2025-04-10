@@ -1,0 +1,851 @@
+/* تعديلات النافبار - يجب أن تكون في بداية الملف */
+
+/* تعديل المسافة العلوية للجسم */
+b
+
+/* تأكيد لون النص في النافبار */
+.navbar-nav > li > a,
+.nav > li > a {
+    color: #ffffff !important;
+}
+
+/* تأكيد لون القائمة المنسدلة */
+.dropdown-menu {
+    background-color: #000000 !important;
+    border: 1px solid #029A0C !important;
+}
+
+.dropdown-menu > li > a {
+    color: #ffffff !important;
+}
+
+/* تأكيد لون الهوفر */
+.nav > li > a:hover,
+.nav > li > a:focus,
+.dropdown-menu > li > a:hover {
+    color: #029A0C !important;
+    background-color: #111111 !important;
+}
+
+/* إزالة أي خلفيات شفافة */
+* {
+    background-color: transparent;
+}
+
+/* تعديل زر التوجل في الموبايل */
+.navbar-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    border: none;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    z-index: 1002;
+    margin: 0;
+    cursor: pointer;
+}
+
+.navbar-toggle .icon-bar {
+    width: 22px;
+    height: 2px;
+    background: #029A0C;
+    position: relative;
+    border-radius: 4px;
+    transform-origin: center;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.navbar-toggle:hover {
+    transform: translateY(-50%) scale(1.05);
+}
+
+.navbar-toggle:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.navbar-toggle.active {
+    background: #ffffff;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.navbar-toggle.active .icon-bar:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+    width: 20px;
+}
+
+.navbar-toggle.active .icon-bar:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px) scale(0);
+}
+
+.navbar-toggle.active .icon-bar:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+    width: 20px;
+}
+
+/* Global Background Colors */
+body,
+.white-bg,
+.container,
+.parallax-1,
+.about-us,
+.opening-hours,
+.newsletter,
+footer,
+.custom-slider-wrapper,
+.white-block,
+.dark-block,
+.contact-us .block,
+.dropdown-menu,
+.navbar,
+.navbar-default,
+.navbar-fixed-top,
+.black-nav,
+#rev_slider_467_1_wrapper,
+.rev_slider_wrapper {
+    background-color: #000000 !important;
+}
+
+/* Override any white backgrounds */
+* {
+    background-color: #000000 !important;
+}
+
+/* Text colors for better visibility on black */
+body,
+p,
+h1, h2, h3, h4, h5, h6,
+.description,
+.caption,
+.nav > li > a,
+.dropdown-menu > li > a {
+    color: #ffffff !important;
+}
+
+/* Accent colors and borders */
+.navbar-fixed-top {
+    border-bottom: 2px solid #029A0C !important;
+}
+
+.dropdown-menu {
+    border: 1px solid #029A0C !important;
+}
+
+/* Hover states */
+.nav > li > a:hover,
+.nav > li > a:focus,
+.dropdown-menu > li > a:hover {
+    color: #029A0C !important;
+    background-color: #111111 !important;
+}
+
+/* Footer darker background */
+.dark-texture-02 {
+    background-color: #111111 !important;
+}
+
+/* Container shadows for depth */
+.container,
+.white-block,
+.dark-block {
+    box-shadow: 0 2px 10px rgba(255,255,255,0.1);
+}
+
+/* Email Styling */
+.email-header {
+    margin-right: 15px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.email-header i {
+    margin-right: 5px;
+}
+
+.email-header:hover {
+    color: #f7931e !important;
+}
+
+.email-contact {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.email-contact i {
+    margin-right: 10px;
+    color: #f7931e;
+}
+
+.email-contact a {
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.email-contact a:hover {
+    color: #f7931e;
+}
+
+.footer-contact {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.email-footer {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.email-footer i {
+    margin-right: 8px;
+}
+
+.email-footer:hover {
+    color: #f7931e;
+    text-decoration: none;
+}
+
+/* Phone Number Styling */
+.contact-header {
+    margin-right: 15px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.contact-header i {
+    margin-right: 5px;
+    transform: rotate(15deg);
+}
+
+.contact-header:hover {
+    color: #f7931e !important;
+}
+
+.contact-info {
+    text-align: center;
+}
+
+.contact-details {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.phone-contact {
+    font-size: 18px;
+    display: inline-block;
+}
+
+.phone-contact i {
+    margin-right: 10px;
+    color: #f7931e;
+    transform: rotate(15deg);
+}
+
+.phone-contact a {
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.phone-contact a:hover {
+    color: #f7931e;
+}
+
+.contact-divider {
+    color: #fff;
+    margin: 0 15px;
+    opacity: 0.5;
+}
+
+.phone-footer {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.phone-footer i {
+    margin-right: 8px;
+    transform: rotate(15deg);
+}
+
+.phone-footer:hover {
+    color: #f7931e;
+    text-decoration: none;
+}
+
+/* Updated footer contact styling */
+.footer-contact {
+    margin: 20px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contact Section Styling */
+.contact-us {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.contact-us .block {
+    background-color: #000000;
+    border: 1px solid #333333;
+    padding: 30px 20px;
+    margin: 15px 0;
+    height: 100%;
+    transition: all 0.3s ease;
+    color: #ffffff;
+}
+
+.contact-us .block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.contact-us .block .icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    text-align: center;
+    margin: 0 auto 20px;
+    color: #fff;
+    background-color: #029A0C;
+    font-size: 24px;
+    line-height: 70px;
+}
+
+.contact-us .block .caption {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.contact-us .block .description {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 16px;
+    color: #cccccc;
+    line-height: 1.6;
+}
+
+.contact-us .block .description a {
+    color: #cccccc;
+    transition: color 0.3s ease;
+}
+
+.contact-us .block .description a:hover {
+    color: #029A0C;
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contact-us .block {
+        margin: 10px 0;
+    }
+    
+    .contact-us .block .icon {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 20px;
+    }
+    
+    .contact-us .block .caption {
+        font-size: 16px;
+    }
+    
+    .contact-us .block .description {
+        font-size: 14px;
+    }
+}
+
+.image-7 {
+    background-image: url(../images/inner-banner/7.jpg);
+    background-position: center center;
+    background-size: cover; /* This makes the image cover the entire container while maintaining aspect ratio */
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 250px; /* Minimum height */
+    height: 30vh; /* Responsive height based on viewport height */
+    width: 100%; /* Full width */
+    overflow: hidden;
+}
+
+/* Add a pseudo-element for overlay */
+.image-7:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Slightly adjusted overlay transparency */
+}
+
+/* Adjust the content positioning */
+.title-area-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px 15px; /* Adjusted padding */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-7 {
+        height: 25vh; /* Slightly smaller on mobile */
+        min-height: 200px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .image-7 {
+        height: 35vh; /* Slightly taller on larger screens */
+        max-height: 400px; /* Maximum height limit */
+    }
+}
+
+/* iPhone 16 Pro Max and similar large phones specific styles */
+@media only screen 
+    and (device-width: 430px) 
+    and (device-height: 932px) 
+    and (-webkit-device-pixel-ratio: 3),
+    /* Also target similar sized devices */
+    screen and (max-width: 430px) {
+
+    /* Banner Image Adjustments */
+    .image-7 {
+        height: 40vh;
+        min-height: 300px;
+        background-position: center top;
+    }
+
+    /* Title Area Content */
+    .title-area-content {
+        padding: 15px;
+    }
+
+    .title-area-content h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .title-area-content h2 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    /* Contact Blocks Adjustments */
+    .contact-us {
+        padding: 30px 15px;
+    }
+
+    .contact-us .block {
+        margin: 10px 0;
+        padding: 20px 15px;
+    }
+
+    .contact-us .block .icon {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 18px;
+    }
+
+    .contact-us .block .caption {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .contact-us .block .description {
+        font-size: 14px;
+    }
+
+    /* Header Contact Info */
+    .contact-header, 
+    .email-header {
+        font-size: 13px;
+        margin-right: 10px;
+    }
+
+    .contact-details {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .phone-contact,
+    .email-contact {
+        font-size: 16px;
+    }
+
+    /* Navigation Adjustments */
+    .navbar-brand img {
+        height: 35px;
+        padding: 3px 0;
+    }
+
+    .navbar-toggle {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* Footer Adjustments */
+    .footer-contact {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .phone-footer,
+    .email-footer {
+        font-size: 14px;
+    }
+
+    .contact-divider {
+        display: none; /* Hide divider on mobile */
+    }
+
+    /* Touch Target Sizes */
+    .phone-contact a,
+    .email-contact a,
+    .phone-footer,
+    .email-footer {
+        padding: 8px; /* Larger touch target */
+        display: inline-block;
+    }
+
+    /* Improved Spacing */
+    .contact-us .row {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .contact-us [class*='col-'] {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    /* Safe Area Insets for iPhone */
+    .contact-us,
+    .title-area-content {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Smooth Scrolling */
+    html {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Better Touch Feedback */
+    a, button {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+
+    a:active,
+    button:active {
+        opacity: 0.7;
+    }
+}
+
+/* Add viewport meta tag to your HTML head if not already present */
+/*
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+*/
+
+/* Add these styles to your CSS file */
+.navbar.fill-black {
+    background-color: #000000 !important;
+    border-bottom: 2px solid #00ff9d !important;
+}
+
+.navbar.fill-black .nav > li > a {
+    color: #ffffff !important;
+}
+
+.navbar.fill-black .nav > li > a:hover,
+.navbar.fill-black .nav > li > a:focus {
+    color: #00ff9d !important;
+    background-color: transparent !important;
+}
+
+.navbar.fill-black .social-header a.transparent-grey {
+    color: #ffffff !important;
+}
+
+.navbar.fill-black .social-header a.transparent-grey:hover {
+    color: #00ff9d !important;
+}
+
+.navbar.fill-black .navbar-toggle .icon-bar {
+    background-color: #ffffff !important;
+}
+
+.navbar.fill-black .dropdown-menu {
+    background-color: #000000 !important;
+    border: 1px solid #00ff9d !important;
+}
+
+.navbar.fill-black .dropdown-menu > li > a {
+    color: #ffffff !important;
+}
+
+.navbar.fill-black .dropdown-menu > li > a:hover {
+    background-color: #000000 !important;
+    color: #00ff9d !important;
+}
+
+/* تنسيقات النافبار الرئيسية 2024 */
+.navbar {
+    padding: 0;
+    background: rgba(0, 0, 0, 0.98);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: auto;
+    border-bottom: 2px solid #029A0C;
+    box-shadow: 0 2px 15px rgba(2, 154, 12, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.navbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 25px;
+    height: auto;
+    background: rgba(0, 0, 0, 0.95);
+    width: 100%;
+    position: relative;
+}
+
+/* تحسين عرض القائمة الرئيسية */
+.navbar-collapse {
+    display: flex !important;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.nav > li {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu {
+    color: #ffffff !important;
+    font-size: 14px;
+    padding: 8px 15px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    display: flex !important;
+    align-items: center;
+    gap: 5px;
+}
+
+/* تحسينات للشاشات المتوسطة والصغيرة */
+@media (max-width: 991px) {
+    .navbar-toggle {
+        display: flex !important;
+    }
+
+    .navbar-header {
+        padding: 8px 60px 8px 25px;
+    }
+
+    .navbar-collapse {
+        display: none !important;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.98);
+        padding: 10px 0;
+    }
+
+    .navbar-collapse.in {
+        display: flex !important;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .nav > li {
+        width: 100%;
+        padding: 5px 15px;
+    }
+
+    .nav-menu {
+        width: 100%;
+        padding: 10px 15px;
+    }
+}
+
+/* تأكيد ظهور جميع العناصر */
+.navbar-nav > li,
+.contact-header,
+.email-header,
+.social-header,
+.nav-menu {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: flex !important;
+}
+
+/* تحسين توزيع العناصر */
+.nav > li.pull-left {
+    margin-right: auto;
+}
+
+.nav > li.pull-right {
+    margin-left: 0;
+}
+
+/* تحسين أيقونات التواصل الاجتماعي */
+.social-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0 20px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-header a {
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(2, 154, 12, 0.1);
+}
+
+.social-header a:hover {
+    color: #029A0C;
+    transform: translateY(-3px);
+}
+
+/* تحسين توزيع العناصر */
+.nav > li.pull-left {
+    margin-right: auto;
+    order: 1;
+}
+
+.nav > li.pull-right {
+    margin-left: auto;
+    order: 3;
+}
+
+.contact-info-header {
+    order: 2;
+}
+
+/* تحسين المربع الأبيض */
+.white-block {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.white-block .nav-menu {
+    border: none;
+    border-bottom: 1px solid #eaeaea;
+    border-radius: 0;
+    margin: 0;
+    background: transparent;
+}
+
+.white-block .nav-menu:last-child {
+    border-bottom: none;
+}
+
+.white-block .nav > li {
+    margin: 0;
+    width: 100%;
+}
+
+/* تأكيد رؤية جميع الروابط */
+.nav > li > a,
+.navbar-nav > li > a,
+.nav-menu,
+.contact-header,
+.email-header,
+.contact-us-link {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* تحسينات للشاشات الصغيرة جداً */
+@media (max-width: 480px) {
+    .navbar-toggle {
+        width: 38px;
+        height: 38px;
+        right: 7px;
+        gap: 6px;
+    }
+
+    .navbar-toggle .icon-bar {
+        width: 20px;
+        height: 2px;
+    }
+
+    .navbar-toggle.active .icon-bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .navbar-toggle.active .icon-bar:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}

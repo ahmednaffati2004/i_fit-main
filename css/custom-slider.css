@@ -1,0 +1,122 @@
+/* تنسيق حاوية السلايدر */
+.custom-slider-container {
+    width: 100%;
+    background-color: #000000;
+    padding: 40px 0;
+}
+
+.custom-slider-wrapper {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* تنسيق السلايدر الرئيسي */
+.custom-slider {
+    background-color: #000000 !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 20px rgba(2,154,12,0.3) !important;
+    height: 500px !important;
+}
+
+/* تنسيق الصور */
+.custom-slide-img {
+    border-radius: 15px !important;
+    object-fit: cover !important;
+    height: 500px !important;
+    width: 100% !important;
+}
+
+/* تنسيق النصوص */
+.custom-caption {
+    font-size: 40px !important;
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+    font-weight: bold !important;
+}
+
+.custom-subtitle {
+    font-size: 24px !important;
+    color: #ffffff !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5) !important;
+}
+
+/* تنسيق أزرار التنقل */
+.tp-leftarrow, .tp-rightarrow {
+    background-color: rgba(2,154,12,0.7) !important;
+    border-radius: 50% !important;
+    width: 50px !important;
+    height: 50px !important;
+    transition: all 0.3s ease !important;
+}
+
+.tp-leftarrow:hover, .tp-rightarrow:hover {
+    background-color: rgba(2,154,12,1) !important;
+    transform: scale(1.1) !important;
+}
+
+/* تنسيق نقاط التنقل */
+.tp-bullets {
+    padding: 10px !important;
+}
+
+.tp-bullet {
+    width: 12px !important;
+    height: 12px !important;
+    background-color: rgba(255,255,255,0.5) !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease !important;
+}
+
+.tp-bullet.selected {
+    background-color: #029A0C !important;
+    transform: scale(1.2) !important;
+}
+
+/* تعديلات للشاشات المتوسطة */
+@media (max-width: 992px) {
+    .custom-slider-wrapper {
+        width: 90%;
+    }
+    
+    .custom-slider {
+        height: 400px !important;
+    }
+    
+    .custom-slide-img {
+        height: 400px !important;
+    }
+    
+    .custom-caption {
+        font-size: 32px !important;
+    }
+    
+    .custom-subtitle {
+        font-size: 20px !important;
+    }
+}
+
+/* تعديلات للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .custom-slider-wrapper {
+        width: 95%;
+    }
+    
+    .custom-slider {
+        height: 300px !important;
+    }
+    
+    .custom-slide-img {
+        height: 300px !important;
+    }
+    
+    .custom-caption {
+        font-size: 28px !important;
+    }
+    
+    .custom-subtitle {
+        font-size: 18px !important;
+    }
+} 
