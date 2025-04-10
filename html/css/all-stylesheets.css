@@ -119,18 +119,20 @@ Primary use:	Food & Restaurant Template
     margin-right: auto; /* دفع العناصر الأخرى للجانب */
 }
 .navbar-brand img {
-    max-height: 45px;
+    max-height: 40px;
     width: auto;
     transition: all 0.3s ease;
     vertical-align: middle;
+    margin-top: -12px; /* ارفع الصورة للأعلى قليلاً */
 }
+
 
 /* ======= CONTACT INFO ======= */
 .contact-info-header {
     display: flex;
     align-items: center;
     gap: 25px; /* زيادة المسافة بين عناصر الاتصال */
-    margin-left: 30px; /* إضافة هامش إذا لزم الأمر */
+    margin-left: 25px; /* إضافة هامش إذا لزم الأمر */
 }
 
 
@@ -581,7 +583,7 @@ Primary use:	Food & Restaurant Template
     }
     
     .nav-menu {
-        font-size: 12px;
+        font-size: 13px;
     }
 }
 
