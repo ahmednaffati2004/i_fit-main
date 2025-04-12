@@ -27,7 +27,7 @@
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 		<script type="text/javascript">
 			(function() {
-				emailjs.init("-u4yhek_xV2fj7b6H");
+				emailjs.init("-u4yhek_xV2fj7b6H"); // اضف مفتاح EmailJS الخاص بك هنا
 			})();
 		</script>
 	</head>
@@ -94,7 +94,7 @@
 									<a href="https://www.facebook.com/share/18hYquTtt6/?mibextid=wwXIfr" class="transparent-grey"><i class="fab fa-facebook"></i></a>
 								<a href="#" class="transparent-grey"><i class="fab fa-twitter"></i></a>
 								<a href="https://www.instagram.com/i.fit.ly" class="transparent-grey"><i class="fab fa-instagram"></i></a>
-							   <a href="https://wa.me/0912451177" class="transparent-grey"><i class="fab fa-whatsapp"></i></a>
+							   <a href="https://wa.me/218912451177" class="transparent-grey"><i class="fab fa-whatsapp"></i></a>
 								</li>
 							<li class="dropdown">
 									<a href="#" class="nav-menu" data-toggle="" role="" aria-haspopup="" aria-expanded="">
@@ -1110,6 +1110,33 @@
 			document.getElementById('lowCarbForm').addEventListener('submit', function(e) {
 				e.preventDefault();
 				
+				// تجميع البيانات
+				const formData = {
+					name: document.getElementById('name').value,
+					'birth-day': document.getElementById('birth-day').value,
+					'birth-month': document.getElementById('birth-month').value,
+					'birth-year': document.getElementById('birth-year').value,
+					phone: document.getElementById('phone').value.replace(/\s/g, ''),
+					address: document.getElementById('address').value,
+					allergies: document.getElementById('allergies').value || 'لا يوجد',
+					food_preferences: document.getElementById('food_preferences').value || 'لا يوجد',
+					heard_about: document.getElementById('heard_about').value
+				};
+
+				// التحقق من صحة رقم الهاتف
+				const phonePattern = /^(09|091|092|094)[0-9]{7}$/;
+				if (!phonePattern.test(formData.phone)) {
+					Swal.fire({
+						icon: 'error',
+						title: 'خطأ!',
+						text: 'الرجاء إدخال رقم هاتف ليبي صحيح',
+						confirmButtonText: 'حسناً',
+						confirmButtonColor: '#029A0C'
+					});
+					return;
+				}
+
+				// إظهار رسالة التحميل
 				Swal.fire({
 					title: 'جاري إرسال الطلب...',
 					text: 'يرجى الانتظار',
@@ -1119,60 +1146,50 @@
 						Swal.showLoading();
 					}
 				});
-				
-				// تجميع البيانات
-				const formData = {
-					name: document.getElementById('name').value,
-					birthDate: `${document.getElementById('birth-day').value}/${document.getElementById('birth-month').value}/${document.getElementById('birth-year').value}`,
-					phone: document.getElementById('phone').value,
-					address: document.getElementById('address').value,
-					allergies: document.getElementById('allergies').value || 'لا يوجد',
-					foodPreferences: document.getElementById('food_preferences').value || 'لا يوجد',
-					heardAbout: document.getElementById('heard_about').value,
-					submissionTime: new Date().toLocaleString('ar-LY')
-				};
 
-				// إرسال البريد باستخدام EmailJS
-				emailjs.send(
-					"service_e5djaun",
-					"template_ak4v5e9",
-					{
-						name: formData.name,
-						birth_date: formData.birthDate,
-						phone: formData.phone,
-						address: formData.address,
-						allergies: formData.allergies,
-						food_preferences: formData.foodPreferences,
-						heard_about: formData.heardAbout,
-						submission_time: formData.submissionTime,
-						to_name: "i.Fit Team",
-						from_name: formData.name,
-						to_email: "info@i-fit.ly",
-						subject: "طلب اشتراك جديد - برنامج لو كارب"
+				// إرسال البريد الإلكتروني باستخدام EmailJS
+				emailjs.send('service_e5djaun', 'template_ak4v5e9', {
+					to_name: 'i.Fit Team',
+					customer_name: formData.name,
+					phone: formData.phone,
+					birth_date: `${formData['birth-day']}/${formData['birth-month']}/${formData['birth-year']}`,
+					address: formData.address,
+					allergies: formData.allergies,
+					food_preferences: formData.food_preferences,
+					heard_about: formData.heard_about,
+					reply_to: 'info@i-fit.ly'
+				}).then(
+					function(response) {
+						// تنسيق رقم الهاتف للواتساب
+						const customerPhone = formData.phone.startsWith('0') ? '218' + formData.phone.substring(1) : formData.phone;
+						const companyPhone = "218912451177"; // رقم الشركة
+						const message = "شكراً على تعاملك معنا، سيتم التواصل معك في أقرب وقت";
+						const whatsappUrl = `https://wa.me/${customerPhone}?text=${encodeURIComponent(message)}`;
+
+						// عرض رسالة النجاح
+						Swal.fire({
+							icon: 'success',
+							title: 'تم إرسال الطلب بنجاح!',
+							text: 'تم استلام طلبك وسيتم التواصل معك قريباً',
+							confirmButtonText: 'حسناً',
+							confirmButtonColor: '#029A0C'
+						}).then(() => {
+							// فتح الواتساب مع رقم الشركة لإرسال الرسالة للعميل
+							window.location.href = `https://wa.me/${customerPhone}?phone=${companyPhone}&text=${encodeURIComponent(message)}`;
+							document.getElementById('lowCarbForm').reset();
+						});
+					},
+					function(error) {
+						console.error('Error:', error);
+						Swal.fire({
+							icon: 'error',
+							title: 'خطأ!',
+							text: 'حدث خطأ في إرسال الطلب. الرجاء المحاولة مرة أخرى.',
+							confirmButtonText: 'حسناً',
+							confirmButtonColor: '#029A0C'
+						});
 					}
-				)
-				.then(function(response) {
-					console.log("SUCCESS", response);
-					Swal.fire({
-						icon: 'success',
-						title: 'تم إرسال الطلب بنجاح!',
-						text: 'سنقوم بالتواصل معك قريباً',
-						confirmButtonText: 'حسناً',
-						confirmButtonColor: '#029A0C'
-					}).then(() => {
-						document.getElementById('lowCarbForm').reset();
-					});
-				})
-				.catch(function(error) {
-					console.error("FAILED", error);
-					Swal.fire({
-						icon: 'error',
-						title: 'خطأ!',
-						text: 'حدث خطأ في إرسال الطلب. الرجاء المحاولة مرة أخرى.',
-						confirmButtonText: 'حسناً',
-						confirmButtonColor: '#029A0C'
-					});
-				});
+				);
 			});
 		</script>
 	</body>
