@@ -552,3 +552,537 @@ document.addEventListener('DOMContentLoaded', function() {
       // Adjust any responsive elements if needed
     });
   });
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const slider = document.querySelector('.premium-slider');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const buttonsWrappers = document.querySelectorAll('.buttons-wrapper');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const prevArrow = document.querySelector('.prev-arrow');
+    const nextArrow = document.querySelector('.next-arrow');
+    const progressFill = document.querySelector('.progress-fill');
+    const currentCounter = document.querySelector('.current');
+    
+    // Variables
+    let currentSlide = 0;
+    let slideInterval;
+    let isAnimating = false;
+    let isAutoPlaying = true;
+    const slideDuration = 6000; // 6 seconds per slide
+    const totalSlides = galleryItems.length;
+    
+    // Initialize slider
+    function initSlider() {
+      // Set up initial state
+      updateSlide(0);
+      startProgressAnimation();
+      startAutoSlide();
+      
+      // Event listeners
+      prevArrow.addEventListener('click', goToPrevSlide);
+      nextArrow.addEventListener('click', goToNextSlide);
+      
+      // Thumbnail navigation
+      thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+          if (isAnimating) return;
+          const slideIndex = parseInt(this.getAttribute('data-index'));
+          goToSlide(slideIndex);
+        });
+      });
+      
+      // Pause autoplay on hover
+      slider.addEventListener('mouseenter', pauseAutoSlide);
+      slider.addEventListener('mouseleave', resumeAutoSlide);
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          goToNextSlide(); // RTL layout, so left is next
+        } else if (e.key === 'ArrowRight') {
+          goToPrevSlide(); // RTL layout, so right is previous
+        }
+      });
+      
+      // Touch events for mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      slider.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        pauseAutoSlide();
+      }, { passive: true });
+      
+      slider.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+        resumeAutoSlide();
+      }, { passive: true });
+      
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        if (touchEndX - touchStartX > swipeThreshold) {
+          // Swiped right (in RTL this is previous)
+          goToPrevSlide();
+        } else if (touchStartX - touchEndX > swipeThreshold) {
+          // Swiped left (in RTL this is next)
+          goToNextSlide();
+        }
+      }
+      
+      // Focus/Blur events for tab visibility changes
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          pauseAutoSlide();
+        } else {
+          resumeAutoSlide();
+        }
+      });
+      
+      // Resize event for responsive adjustments
+      window.addEventListener('resize', handleResize);
+      
+      // Initial resize call
+      handleResize();
+    }
+    
+    // Go to specific slide
+    function goToSlide(index) {
+      if (currentSlide === index || isAnimating) return;
+      
+      isAnimating = true;
+      
+      // Reset progress animation
+      resetProgressAnimation();
+      
+      // Remove active class from current elements
+      galleryItems[currentSlide].classList.remove('active');
+      buttonsWrappers[currentSlide].classList.remove('active');
+      thumbnails[currentSlide].classList.remove('active');
+      
+      // Update current slide index
+      currentSlide = index;
+      
+      // Update slide
+      updateSlide(currentSlide);
+      
+      // After animation completes
+      setTimeout(() => {
+        isAnimating = false;
+      }, 800); // Match this with CSS transition duration
+    }
+    
+    // Go to next slide
+    function goToNextSlide() {
+      const nextIndex = (currentSlide + 1) % totalSlides;
+      goToSlide(nextIndex);
+    }
+    
+    // Go to previous slide
+    function goToPrevSlide() {
+      const prevIndex = (currentSlide - 1 + totalSlides) % totalSlides;
+      goToSlide(prevIndex);
+    }
+    
+    // Update slide content and classes
+    function updateSlide(index) {
+      // Add active class to current elements
+      galleryItems[index].classList.add('active');
+      buttonsWrappers[index].classList.add('active');
+      thumbnails[index].classList.add('active');
+      
+      // Update counter
+      currentCounter.textContent = (index + 1).toString().padStart(2, '0');
+      
+      // Start progress animation
+      startProgressAnimation();
+    }
+    
+    // Progress animation functions
+    function startProgressAnimation() {
+      resetProgressAnimation();
+      
+      // Animate the progress bar
+      let startTime = null;
+      let animationFrame;
+      
+      function animate(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / slideDuration, 1);
+        
+        progressFill.style.width = `${progress * 100}%`;
+        
+        if (progress < 1 && isAutoPlaying) {
+          animationFrame = requestAnimationFrame(animate);
+        } else if (progress >= 1) {
+          // Move to next slide when progress completes
+          goToNextSlide();
+        }
+      }
+      
+      animationFrame = requestAnimationFrame(animate);
+      
+      // Store the animation frame ID to cancel it later
+      progressFill.dataset.animationFrame = animationFrame;
+    }
+    
+    function resetProgressAnimation() {
+      // Cancel existing animation
+      if (progressFill.dataset.animationFrame) {
+        cancelAnimationFrame(parseInt(progressFill.dataset.animationFrame));
+      }
+      
+      // Reset progress bar
+      progressFill.style.width = '0%';
+    }
+    
+    // Auto slide functions
+    function startAutoSlide() {
+      isAutoPlaying = true;
+      startProgressAnimation();
+    }
+    
+    function pauseAutoSlide() {
+      isAutoPlaying = false;
+      
+      // Cancel existing animation
+      if (progressFill.dataset.animationFrame) {
+        cancelAnimationFrame(parseInt(progressFill.dataset.animationFrame));
+      }
+    }
+    
+    function resumeAutoSlide() {
+      if (!isAutoPlaying) {
+        isAutoPlaying = true;
+        startProgressAnimation();
+      }
+    }
+    
+    // Handle resize for responsive adjustments
+    function handleResize() {
+      const windowWidth = window.innerWidth;
+      
+      // Adjust elements based on screen size
+      if (windowWidth <= 768) {
+        // Mobile adjustments
+        document.querySelectorAll('.btn').forEach(btn => {
+          btn.classList.add('mobile-view');
+        });
+      } else {
+        // Desktop adjustments
+        document.querySelectorAll('.btn').forEach(btn => {
+          btn.classList.remove('mobile-view');
+        });
+      }
+    }
+    
+    // Add parallax effect on mouse move for desktop
+    function addParallaxEffect() {
+      if (window.innerWidth >= 992) { // Only for desktop
+        slider.addEventListener('mousemove', function(e) {
+          if (isAnimating) return;
+          
+          const xPos = (e.clientX / window.innerWidth) - 0.5;
+          const yPos = (e.clientY / window.innerHeight) - 0.5;
+          
+          const activeImage = document.querySelector('.gallery-item.active img');
+          if (activeImage) {
+            activeImage.style.transform = `scale(1.05) translate(${xPos * 20}px, ${yPos * 20}px)`;
+            activeImage.style.transition = 'transform 0.3s ease-out';
+          }
+        });
+        
+        slider.addEventListener('mouseleave', function() {
+          const activeImage = document.querySelector('.gallery-item.active img');
+          if (activeImage) {
+            activeImage.style.transform = 'scale(1)';
+            activeImage.style.transition = 'transform 0.5s ease-out';
+          }
+        });
+      }
+    }
+    
+    // Initialize the slider
+    initSlider();
+    
+    // Add parallax effect for desktop
+    addParallaxEffect();
+    
+    // Preload images for smoother transitions
+    function preloadImages() {
+      document.querySelectorAll('.gallery-item img, .thumbnail img').forEach(img => {
+        const src = img.getAttribute('src');
+        if (src) {
+          const newImg = new Image();
+          newImg.src = src;
+        }
+      });
+    }
+    
+    // Preload images
+    preloadImages();
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const photoBoxes = document.querySelectorAll('.photo-box');
+    const photoViewer = document.querySelector('.photo-viewer');
+    const viewerImage = document.querySelector('.viewer-image');
+    const viewerClose = document.querySelector('.viewer-close');
+    const viewerPrev = document.querySelector('.viewer-prev');
+    const viewerNext = document.querySelector('.viewer-next');
+    const viewerCurrent = document.querySelector('.viewer-current');
+    const viewerTotal = document.querySelector('.viewer-total');
+    const photoShowcase = document.querySelector('.photo-showcase');
+    
+    // Variables
+    let currentIndex = 0;
+    const totalImages = photoBoxes.length;
+    const imagePaths = [];
+    let isAnimating = false;
+    
+    // Get all image paths
+    photoBoxes.forEach(item => {
+      const imgSrc = item.querySelector('.photo-img').getAttribute('src');
+      imagePaths.push(imgSrc);
+    });
+    
+    // Set total slides
+    viewerTotal.textContent = totalImages;
+    
+    // Create floating particles
+    createParticles();
+    
+    // Add 3D tilt effect to gallery items
+    addTiltEffect();
+    
+    // Open viewer
+    photoBoxes.forEach((item, index) => {
+      item.addEventListener('click', function() {
+        if (isAnimating) return;
+        currentIndex = index;
+        openViewer(index);
+      });
+    });
+    
+    // Close viewer
+    viewerClose.addEventListener('click', closeViewer);
+    photoViewer.addEventListener('click', function(e) {
+      if (e.target === photoViewer) {
+        closeViewer();
+      }
+    });
+    
+    // Navigate through viewer
+    viewerPrev.addEventListener('click', showPrevImage);
+    viewerNext.addEventListener('click', showNextImage);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (!photoViewer.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') {
+        closeViewer();
+      } else if (e.key === 'ArrowLeft') {
+        showNextImage(); // RTL layout, so left is next
+      } else if (e.key === 'ArrowRight') {
+        showPrevImage(); // RTL layout, so right is previous
+      }
+    });
+    
+    // Touch events for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    photoViewer.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    photoViewer.addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      if (touchEndX - touchStartX > swipeThreshold) {
+        // Swiped right (in RTL this is previous)
+        showPrevImage();
+      } else if (touchStartX - touchEndX > swipeThreshold) {
+        // Swiped left (in RTL this is next)
+        showNextImage();
+      }
+    }
+    
+    // Functions
+    function openViewer(index) {
+      isAnimating = true;
+      
+      viewerImage.style.opacity = '0';
+      viewerImage.style.transform = 'scale(0.9)';
+      
+      setTimeout(() => {
+        viewerImage.setAttribute('src', imagePaths[index]);
+        viewerImage.setAttribute('alt', `صورة ${index + 1}`);
+        viewerCurrent.textContent = index + 1;
+        
+        photoViewer.classList.add('active');
+        
+        setTimeout(() => {
+          isAnimating = false;
+        }, 800);
+      }, 100);
+    }
+    
+    function closeViewer() {
+      if (isAnimating) return;
+      isAnimating = true;
+      
+      viewerImage.style.opacity = '0';
+      viewerImage.style.transform = 'scale(0.9)';
+      
+      setTimeout(() => {
+        photoViewer.classList.remove('active');
+        
+        setTimeout(() => {
+          isAnimating = false;
+        }, 300);
+      }, 300);
+    }
+    
+    function showPrevImage() {
+      if (isAnimating) return;
+      isAnimating = true;
+      
+      currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+      updateViewerImage();
+    }
+    
+    function showNextImage() {
+      if (isAnimating) return;
+      isAnimating = true;
+      
+      currentIndex = (currentIndex + 1) % totalImages;
+      updateViewerImage();
+    }
+    
+    function updateViewerImage() {
+      viewerImage.style.opacity = '0';
+      viewerImage.style.transform = 'scale(0.9)';
+      
+      setTimeout(() => {
+        viewerImage.setAttribute('src', imagePaths[currentIndex]);
+        viewerImage.setAttribute('alt', `صورة ${currentIndex + 1}`);
+        viewerCurrent.textContent = currentIndex + 1;
+        
+        setTimeout(() => {
+          viewerImage.style.opacity = '1';
+          viewerImage.style.transform = 'scale(1)';
+          
+          setTimeout(() => {
+            isAnimating = false;
+          }, 500);
+        }, 100);
+      }, 300);
+    }
+    
+    // Add 3D tilt effect to gallery items
+    function addTiltEffect() {
+      photoBoxes.forEach(item => {
+        item.addEventListener('mousemove', function(e) {
+          if (window.innerWidth < 992) return; // Only on desktop
+          
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const xPercent = x / rect.width;
+          const yPercent = y / rect.height;
+          
+          const rotateX = (0.5 - yPercent) * 10; // -5 to 5 degrees
+          const rotateY = (xPercent - 0.5) * 10; // -5 to 5 degrees
+          
+          this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+          
+          // Move the image slightly for parallax effect
+          const image = this.querySelector('.photo-img');
+          const moveX = (xPercent - 0.5) * 20; // -10 to 10 pixels
+          const moveY = (yPercent - 0.5) * 20; // -10 to 10 pixels
+          image.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+        });
+        
+        item.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+          const image = this.querySelector('.photo-img');
+          image.style.transform = '';
+        });
+      });
+    }
+    
+    // Create floating particles
+    function createParticles() {
+      const particleCount = 15;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random position
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        
+        // Random size
+        const size = Math.random() * 15 + 5;
+        
+        // Random opacity
+        const opacity = Math.random() * 0.3 + 0.1;
+        
+        // Random animation duration and delay
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        
+        // Set styles
+        particle.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          top: ${posY}%;
+          left: ${posX}%;
+          opacity: ${opacity};
+          animation-duration: ${duration}s;
+          animation-delay: ${delay}s;
+        `;
+        
+        photoShowcase.appendChild(particle);
+      }
+    }
+    
+    // Preload images for smoother transitions
+    function preloadImages() {
+      imagePaths.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    }
+    
+    // Call preload images
+    preloadImages();
+  });
